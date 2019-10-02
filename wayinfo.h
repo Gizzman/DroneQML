@@ -24,6 +24,10 @@ public:
     {
         return "DDD";
     }
+    int countSquares()
+    {
+        return countSquareLMain*countSquareWMain;
+    }
     void setCoorBase( QString &coor)
     {
 

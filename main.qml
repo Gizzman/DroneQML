@@ -13,6 +13,24 @@ Window
     title: "Dron"
     property variant startPositioLant: QtPositioning.coordinate( 50.161751, 27.078982 )
     property int comb
+
+    property int i: 0
+    property variant topLeftEurope: QtPositioning.coordinate(60.5, 0.0)
+    property variant bottomRightEurope: QtPositioning.coordinate(51.0, 14.0)
+    property variant viewOfEurope:
+            QtPositioning.rectangle(topLeftEurope, bottomRightEurope)
+
+    property variant berlin: QtPositioning.coordinate(52.5175, 13.384)
+    property variant oslo: QtPositioning.coordinate(59.9154, 10.7425)
+    property variant london: QtPositioning.coordinate(51.5, 0.1275)
+    property variant point1: QtPositioning.coordinate(53.5175, 14.384)
+    property variant point2: QtPositioning.coordinate(60.9154, 11.7425)
+    property variant point3: QtPositioning.coordinate(50.358157, 26.697923)
+    property variant shepetivka: QtPositioning.coordinate(50.181360, 27.053639)
+    property variant kyiv: QtPositioning.coordinate(50.464055, 30.498494)
+    property int xPos
+    property int yPos
+
     Row
     {
         id: row2
@@ -339,25 +357,48 @@ Window
         }
 
 
-        Map
-        {
-            id: map
-            x: 0
-            width: row2.width/2
-            height: row2.height
+
+
+        Map {
+            id: mapOfEurope
+
+            width: aplication.width/2
+            height: aplication.height
             plugin: Plugin {
                 name: "esri" // "mapboxgl", "esri", ...
             }
+
+
+
+            MouseArea
+            {
+
+                anchors.fill: parent
+                hoverEnabled: true
+                onPositionChanged: {
+                //    xPos=mouse.x
+                 //   yPos=mouse.y
+                }
+
+                onClicked:
+                {
+                    myPlane.showMessage(xPos+" "+yPos);
+
+
+                }
+            }
+
 
             Plane
             {
                 id: myPlane
                 pilotName: "my own plane"
-                coordinate: QtPositioning.coordinate(50.190133, 27.063131)
+                coordinate: myPlaneControl.position
 
 
                 MouseArea
                 {
+                    //for(var i; i<=1; i++){
                     anchors.fill: parent
                     onClicked:
                     {
@@ -366,8 +407,25 @@ Window
                             console.log("Plane still in the air.");
                             return;
                         }
-                        //myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
+
+                        //set variable
+                        myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
+
+                        //it calls startFlight in the controller
+
+                       // myPlane.departed(); // show messages
+                        //myPlaneControl.onClicked();
                         myPlane.onPlaneClicked();
+
+                            //sleep wait
+                            /*myPlaneControl.from = berlin;  // start position
+                            myPlaneControl.to = oslo;  // end position
+                            myPlaneAnimation.start();
+                            myPlaneControl.arrived.connect(arrived)
+                            myPlaneAnimation.start();
+                            myPlaneControllerOnClicked();*/
+
+
                     }
                 }
 
@@ -380,24 +438,20 @@ Window
 
                 function arrived()
                 {
+//                            var point = [london,berlin,oslo, shepetivka,kyiv];
 
-                        var point =way.wayFly()
-                        myPlaneControl.position = point[i]
-                        myPlaneControl.from = point[i] // start position
-                        myPlaneControl.to = point[i+1]
-                   // myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-                        myPlaneAnimation.start();
-                      myPlane.showMessage(qsTr(i.toString()));
+//                    myPlaneControl.position = point[i];
+//                        myPlaneControl.from = point[i];  // start position
+//                        myPlaneControl.to = point[i+1];
+                      myPlaneControl.pos();
+                      myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
+                      myPlaneAnimation.start()
+                      myPlane.showMessage(qsTr(i.toString()))
 
-                       i+=1;
-                         // default position before moving
-                           // myPlaneAnimation.start(); // move the plane
-                            //myPlaneControl.arrived.connect(arrived)
                 }
 
 
-            //! [MyPlane]
-                //! [MyPlane]
+
                 SequentialAnimation
                 {
                     id: myPlaneAnimation
@@ -407,7 +461,7 @@ Window
                     {
                         // Rotation to next point
 
-                        target: myPlane; property: "bearing"; duration: 1000
+                        target: myPlane; property: "bearing"; duration: 10
                         easing.type: Easing.InOutQuad
                         to: myPlaneAnimation.rotationDirection
 
@@ -444,12 +498,10 @@ Window
                 }
             }
 
-            visibleRegion: QtPositioning.coordinate(50.190133, 27.063131)
-
-            }
+            visibleRegion: viewOfEurope
         }
     }
-
+}
 /*##^##
 Designer {
     D{i:4;anchors_height:23;anchors_width:150}D{i:3;anchors_height:23;anchors_width:194}

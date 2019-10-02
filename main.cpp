@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     WayInfo way;
-    PlaneController myplane;
+    PlaneController myplane(way);
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("way", &way);

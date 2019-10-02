@@ -11,7 +11,7 @@
 #include <QTimerEvent>
 #include "wayinfo.h"
 
-#define ANIMATION_DURATION 1000
+#define ANIMATION_DURATION 100
 
 
 class PlaneController: public QObject

@@ -30,7 +30,10 @@ Window
     property variant kyiv: QtPositioning.coordinate(50.464055, 30.498494)
     property int xPos
     property int yPos
-
+    property bool radio: false
+    property string base:"50.190133, 27.063131"
+    property string start:"50.189676, 27.063756"
+    property string end: "50.186699, 27.069989"
     Row
     {
         id: row2
@@ -45,6 +48,7 @@ Window
         id: column
         width: aplication.width/2
         height: aplication.height
+        anchors.verticalCenter: parent.verticalCenter
         spacing: 6
         transformOrigin: Item.Center
             Row
@@ -52,6 +56,7 @@ Window
             id: row
             width: 382
             height: 33
+
                 Label {
                 id:label1
                 width: 194
@@ -251,14 +256,17 @@ Window
                     id: pointbase
                     width: 150
                     height: 23
-                    text: "50.190133, 27.063131"
+                    text:base
                     font.family: "Arial"
                     font.pointSize: 9
                 }
 
-                RadioButton {
+
+                   RadioButton {
                     id: radioBase
                     height: 23
+                    checkable: true
+                    checked: false
                     onClicked:
                     {
 
@@ -287,7 +295,7 @@ Window
                     id: pointstart
                     width: 150
                     height: 23
-                    text: "50.189676, 27.063756"
+                    text: start
                     font.family: "Arial"
                     font.pointSize: 9
                 }
@@ -298,6 +306,7 @@ Window
                     height: 23
                     onClicked:
                     {
+
                         radioBase.checkable=false;
                         radioEnd.checkable=false;
                     }
@@ -323,7 +332,7 @@ Window
                     id: pointend
                     width: 150
                     height: 23
-                    text: "50.186699, 27.069989"
+                    text: end
                     font.family: "Arial"
                     font.pointSize: 9
                 }
@@ -333,6 +342,7 @@ Window
                     height: 23
                     onClicked:
                     {
+
                         radioBase.checkable=false;
                         radioStart.checkable=false;
                     }
@@ -357,11 +367,9 @@ Window
         }
 
 
-
-
         Map {
-            id: mapOfEurope
-
+            id: map
+            zoomLevel: 10
             width: aplication.width/2
             height: aplication.height
             plugin: Plugin {
@@ -382,8 +390,29 @@ Window
 
                 onClicked:
                 {
-                    myPlane.showMessage(xPos+" "+yPos);
 
+                        if(radioBase.checked)
+                        {
+                            base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                            radioBase.checkable=true
+                            radioEnd.checkable=true;
+                            radioStart.checkable=true;
+                            radioBase.checked=false
+                        }else if(radioEnd.checked)
+                        {
+                            end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                            radioBase.checkable=true
+                            radioEnd.checkable=true;
+                            radioStart.checkable=true
+                            radioEnd.checked=false
+                        } else if(radioStart.checked)
+                        {
+                            start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                            radioBase.checkable=true
+                            radioEnd.checkable=true;
+                            radioStart.checkable=true
+                            radioStart.checked=false
+                        }
 
                 }
             }
@@ -438,16 +467,10 @@ Window
 
                 function arrived()
                 {
-//                            var point = [london,berlin,oslo, shepetivka,kyiv];
-
-//                    myPlaneControl.position = point[i];
-//                        myPlaneControl.from = point[i];  // start position
-//                        myPlaneControl.to = point[i+1];
                       myPlaneControl.pos();
                       myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
                       myPlaneAnimation.start()
-                      myPlane.showMessage(qsTr(i.toString()))
-
+                      myPlane.showMessage(qsTr("take Photo"))
                 }
 
 
@@ -475,8 +498,8 @@ Window
                 Component.onCompleted:
                 {
                     myPlaneControl.position = london;  // default position before moving
-                    myPlaneControl.from = point1;  // start position
-                    myPlaneControl.to = point2;  // end position
+                  //  myPlaneControl.from = point1;  // start position
+                 //   myPlaneControl.to = point2;  // end position
                     myPlaneControl.arrived.connect(arrived)
                 }
 
@@ -502,10 +525,5 @@ Window
         }
     }
 }
-/*##^##
-Designer {
-    D{i:4;anchors_height:23;anchors_width:150}D{i:3;anchors_height:23;anchors_width:194}
-D{i:1;anchors_height:584;anchors_width:381;anchors_x:48;anchors_y:57}
-}
-##^##*/
+
 

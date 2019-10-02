@@ -64,10 +64,10 @@ MapQuickItem {
                     target: message;
                     property: "opacity";
                     to: 1.0;
-                    duration: 200
+                    duration: 100
                     easing.type: Easing.InOutQuad
                 }
-                PauseAnimation  { duration: 1000 }
+                PauseAnimation  { duration: 10 }
                 NumberAnimation
                 {
                     target: message;

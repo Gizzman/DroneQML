@@ -3,6 +3,7 @@ import QtQuick.Controls 2.9
 import QtQuick.Window 2.4
 import QtPositioning 5.5
 import QtLocation 5.6
+import QtQuick.Layouts 1.3
 
 Window
 {
@@ -30,32 +31,44 @@ Window
     property variant kyiv: QtPositioning.coordinate(50.464055, 30.498494)
     property int xPos
     property int yPos
-    property bool radio: false
+    property bool stop: false
     property string base:"50.190133, 27.063131"
     property string start:"50.189676, 27.063756"
     property string end: "50.186699, 27.069989"
     Row
     {
         id: row2
-        x: 0
-        y: 0
         width: aplication.width
         height: aplication.height
+        anchors.top: parent.top
+        anchors.topMargin: 0
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.right: parent.right
+        anchors.rightMargin: 0
 
 
         Column {
 
-        id: column
-        width: aplication.width/2
+            id: column
+            width: aplication.width/2
         height: aplication.height
+        Layout.maximumHeight: 600
+        Layout.maximumWidth: 400
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 6
+        spacing: 6.7
         transformOrigin: Item.Center
             Row
             {
-            id: row
+                id: row
             width: 382
             height: 33
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
                 Label {
                 id:label1
@@ -79,6 +92,8 @@ Window
                 id: row1
                 width: 382
                 height: 33
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Label
                 {
                     id:label2
@@ -95,6 +110,7 @@ Window
                     width: 150
                     height: 23
                     text: "50"
+                    Layout.fillWidth: false
                     font.family: "Arial"
                     font.pointSize: 9
                 }
@@ -110,12 +126,14 @@ Window
                 font.family: "Arial"
             }
             Row {
-            id: row13
-            width: 334
+                id: row13
+                width: 334
             height: 32
+            Layout.fillHeight: true
+            Layout.fillWidth: true
                 Row {
-                id: row10
-                width: 174
+                    id: row10
+                    width: 174
                 height: 32
                     Label
                     {
@@ -130,7 +148,7 @@ Window
                     TextField
                     {
                         id: v
-                        width: 150
+                        width: 142
                         height: 23
                         text: "36"
                         font.family: "Arial"
@@ -139,7 +157,7 @@ Window
                 }
                 Row
                 {
-                id: row7
+                    id: row7
                 width: 190
                 height: 32
                     Label
@@ -155,7 +173,7 @@ Window
                     TextField
                     {
                         id: h
-                        width: 150
+                        width: 143
                         height: 23
                         text: "24"
                         font.family: "Arial"
@@ -167,6 +185,8 @@ Window
                 id: row12
                 width: 334
                 height: 32
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Label
                 {
                     id: label14
@@ -191,6 +211,8 @@ Window
                 id: row11
                 width: 334
                 height: 32
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Label
                 {
                     id: label12
@@ -213,9 +235,11 @@ Window
             }
             Row
             {
-            id: row5
+                id: row5
             width: 334
             height: 32
+            Layout.fillHeight: true
+            Layout.fillWidth: true
                 Label
                 {
                     id:label8
@@ -241,6 +265,8 @@ Window
                 id: row4
                 width: 334
                 height: 32
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Label
                 {
                     id: label9
@@ -277,9 +303,11 @@ Window
             }
             Row
             {
-            id: row9
+                id: row9
             width: 334
             height: 32
+            Layout.fillHeight: true
+            Layout.fillWidth: true
                 Label
                 {
                     id: label11
@@ -317,6 +345,8 @@ Window
                 id: row8
                 width: 334
                 height: 32
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 Label
                 {
                     id: label10
@@ -461,16 +491,22 @@ Window
                 function onPlaneClicked()
                 {
                     //myPlaneControl.arrived.connect(arrived);
+                    stop=false;
                     myPlane.arrived();
+
                     //myPlaneAnimation.start();
                 }
 
                 function arrived()
                 {
-                      myPlaneControl.pos();
-                      myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-                      myPlaneAnimation.start()
-                      myPlane.showMessage(qsTr("take Photo"))
+                    if(!stop)
+                    {
+                        myPlaneControl.pos();
+                        myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
+                        myPlaneAnimation.start()
+                        myPlane.showMessage(qsTr("take Photo"))
+                    }
+
                 }
 
 
@@ -493,6 +529,10 @@ Window
                     ScriptAction { script: myPlaneControl.startFlight() }
                 }
                 //! [CppPlane3]
+                function stoped()
+                {
+                    stop=true;
+                }
 
                 // when qml is loaded
                 Component.onCompleted:
@@ -500,25 +540,12 @@ Window
                     myPlaneControl.position = london;  // default position before moving
                   //  myPlaneControl.from = point1;  // start position
                  //   myPlaneControl.to = point2;  // end position
+                    myPlaneControl.stoped.connect(stoped)
                     myPlaneControl.arrived.connect(arrived)
                 }
 
 
-                function departed()
-                {
-                    if (myPlaneControl.from === point2)
-                        myPlane.showMessage(qsTr("See you bro!"))
-                    else if (myPlaneControl.from === point1)
-                        myPlane.showMessage(qsTr("Bye, see you soon!"))
-                }
 
-                function delay(delayTime)
-                {
-                    timer = new Timer();
-                    timer.interval = delayTime;
-                    timer.repeat = false;
-                    timer.start();
-                }
             }
 
             visibleRegion: viewOfEurope
@@ -527,3 +554,9 @@ Window
 }
 
 
+
+/*##^##
+Designer {
+    D{i:1;anchors_x:0;anchors_y:0}
+}
+##^##*/

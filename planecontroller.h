@@ -11,7 +11,7 @@
 #include <QTimerEvent>
 #include "wayinfo.h"
 
-#define ANIMATION_DURATION 100
+#define ANIMATION_DURATION 500
 
 
 class PlaneController: public QObject
@@ -73,7 +73,7 @@ public:
 public slots:
     void pos()
     {
-            if(i<way->countSquares()-1)
+            if(i<way->countSquares()+1)
             {
                 setPosition(way->wayFly()[i]);
                 setFrom(way->wayFly()[i]);  // start position
@@ -82,6 +82,11 @@ public slots:
                 qDebug()<<i;
             }else
             {
+                stoped();
+                setPosition(way->wayFly()[way->countSquares()+1]);
+                //setFrom(way->wayFly()[i]);  // start position
+                //setTo(way->wayFly()[i+1]) ;
+                i=0;
                 return;
             }
     }
@@ -107,7 +112,7 @@ public slots:
     }
 
 signals:
-
+    void stoped();
     void positionChanged();
     void arrived();
     void departed();

@@ -80,15 +80,14 @@ public slots:
                 setTo(way->wayFly()[i+1]) ;
                 ++i;
                 qDebug()<<i;
-            }else
-            {
-                stoped();
-                setPosition(way->wayFly()[way->countSquares()+1]);
-                //setFrom(way->wayFly()[i]);  // start position
-                //setTo(way->wayFly()[i+1]) ;
-                i=0;
-                return;
+                if(i==way->countSquares()+1)
+                {
+                    i=0;
+                    stoped();
+                    return;
+                }
             }
+
     }
     void startFlight()
     {

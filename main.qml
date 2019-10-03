@@ -392,6 +392,7 @@ Window
                     way.setCoordinates(pointstart.text,3);
                     way.setAllParametrs(focusdistance.text,h.text,v.text,costphoto.text,costfly.text,he.text)
                     way.handleDate();
+                    viewOfEurope=way.basePosition();
                 }
             }
         }
@@ -399,13 +400,28 @@ Window
 
         Map {
             id: map
-            zoomLevel: 10
+            zoomLevel: 25
             width: aplication.width/2
+
+            visibleRegion: viewOfEurope
             height: aplication.height
             plugin: Plugin {
-                name: "esri" // "mapboxgl", "esri", ...
+                name: "mapboxgl" // "mapboxgl", "esri", ...
             }
+            MapItemView {
+                model: searchModel
+                delegate: MapQuickItem {
+                    coordinate: place.location.coordinate
 
+                    anchorPoint.x: image.width * 0.5
+                    anchorPoint.y: image.height
+
+                    sourceItem: Column {
+                        Image { id: image; source: "marker.png" }
+                        Text { text: title; font.bold: true }
+                    }
+                }
+            }
 
 
             MouseArea
@@ -466,25 +482,8 @@ Window
                             console.log("Plane still in the air.");
                             return;
                         }
-
-                        //set variable
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-
-                        //it calls startFlight in the controller
-
-                       // myPlane.departed(); // show messages
-                        //myPlaneControl.onClicked();
                         myPlane.onPlaneClicked();
-
-                            //sleep wait
-                            /*myPlaneControl.from = berlin;  // start position
-                            myPlaneControl.to = oslo;  // end position
-                            myPlaneAnimation.start();
-                            myPlaneControl.arrived.connect(arrived)
-                            myPlaneAnimation.start();
-                            myPlaneControllerOnClicked();*/
-
-
                     }
                 }
 
@@ -548,7 +547,6 @@ Window
 
             }
 
-            visibleRegion: viewOfEurope
         }
     }
 }

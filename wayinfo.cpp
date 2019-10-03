@@ -38,22 +38,7 @@ pair<double, double> getLengthDegree(double latDegree)
 
 void WayInfo::handleDate()// todo rename
 {
-    //height=ui->Height->text().toDouble();
-   // horizontalAngel=ui->GeometrySensorH->text().toDouble();
-   // verticalAngel=ui->GeometrySensor->text().toDouble();
-    //focusDistance=ui->FocusDistance->text().toDouble();
 
-// set degree of latitude, longtitude in degrees to pair
-   // pointEnd.longitude()=ui->pointXEnd->text().toDouble();//Довгота
-    //pointEnd.latitude()=ui->pointYEnd_2->text().toDouble();//Широта
-
-    //pointStart.longitude()=ui->pointXStart->text().toDouble();
-    //pointStart.latitude()=ui->pointYStart->text().toDouble();
-
-   // pointbase.longitude()=ui->pointXBase->text().toDouble();
-   // pointbase.latitude()=ui->pointYBase->text().toDouble();
-
-    // angle of view
     double aH=2*(atan(horizontalAngel/(2*focusDistance))*180/pi);
     double aV=2*(atan(verticalAngel/(2*focusDistance))*180/ pi);
 
@@ -197,7 +182,7 @@ void WayInfo::handleDate()// todo rename
         QGeoCoordinate tmp(a[way[i].first][way[i].second].second.first,a[way[i].first][way[i].second].second.second);
         _wayFly.push_back(tmp);
     }
- //   _wayFly.push_back(pointBase);
+    _wayFly.push_back(pointBase);
 
     double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;

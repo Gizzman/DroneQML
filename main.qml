@@ -52,13 +52,10 @@ Window
 
         Column {
 
-            id: column
-            width: aplication.width/2
+        id: column
+        width: aplication.width/2
         height: aplication.height
-        Layout.maximumHeight: 600
-        Layout.maximumWidth: 400
-        Layout.fillHeight: true
-        Layout.fillWidth: true
+
         anchors.verticalCenter: parent.verticalCenter
         spacing: 6.7
         transformOrigin: Item.Center
@@ -392,6 +389,10 @@ Window
                     way.setCoordinates(pointstart.text,3);
                     way.setAllParametrs(focusdistance.text,h.text,v.text,costphoto.text,costfly.text,he.text)
                     way.handleDate();
+                    viewOfEurope=way.basePosition();
+                    stop=false;
+                    myPlane.arrived();
+
                 }
             }
         }
@@ -399,13 +400,33 @@ Window
 
         Map {
             id: map
-            zoomLevel: 10
+            zoomLevel: 15
             width: aplication.width/2
+            center: viewOfEurope
             height: aplication.height
             plugin: Plugin {
                 name: "esri" // "mapboxgl", "esri", ...
             }
 
+            Component.onCompleted:
+            {
+            //   var compon=Qt.createComponent("Point.qml")
+           //     compon.createObject(map)
+            }
+            MapItemView {
+                   model: searchModel
+                   delegate: MapQuickItem {
+                       coordinate: place.location.coordinate
+
+                       anchorPoint.x: image.width * 0.5
+                       anchorPoint.y: image.height
+
+                       sourceItem: Column {
+                           Image { id: image; source: "marker.png" }
+                           Text { text: title; font.bold: true }
+                       }
+                   }
+            }
 
 
             MouseArea
@@ -413,10 +434,7 @@ Window
 
                 anchors.fill: parent
                 hoverEnabled: true
-                onPositionChanged: {
-                //    xPos=mouse.x
-                 //   yPos=mouse.y
-                }
+
 
                 onClicked:
                 {
@@ -454,7 +472,6 @@ Window
                 pilotName: "my own plane"
                 coordinate: myPlaneControl.position
 
-
                 MouseArea
                 {
                     //for(var i; i<=1; i++){
@@ -466,33 +483,16 @@ Window
                             console.log("Plane still in the air.");
                             return;
                         }
-
-                        //set variable
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-
-                        //it calls startFlight in the controller
-
-                       // myPlane.departed(); // show messages
-                        //myPlaneControl.onClicked();
                         myPlane.onPlaneClicked();
-
-                            //sleep wait
-                            /*myPlaneControl.from = berlin;  // start position
-                            myPlaneControl.to = oslo;  // end position
-                            myPlaneAnimation.start();
-                            myPlaneControl.arrived.connect(arrived)
-                            myPlaneAnimation.start();
-                            myPlaneControllerOnClicked();*/
-
-
                     }
                 }
 
                 function onPlaneClicked()
                 {
                     //myPlaneControl.arrived.connect(arrived);
-                    stop=false;
-                    myPlane.arrived();
+                    //stop=false;
+                    //myPlane.arrived();
 
                     //myPlaneAnimation.start();
                 }
@@ -537,6 +537,7 @@ Window
                 // when qml is loaded
                 Component.onCompleted:
                 {
+
                     myPlaneControl.position = london;  // default position before moving
                   //  myPlaneControl.from = point1;  // start position
                  //   myPlaneControl.to = point2;  // end position
@@ -548,7 +549,6 @@ Window
 
             }
 
-            visibleRegion: viewOfEurope
         }
     }
 }

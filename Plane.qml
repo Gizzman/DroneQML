@@ -11,9 +11,8 @@ MapQuickItem {
     anchorPoint.x: image.width/2
     anchorPoint.y: image.height/2
 
-    sourceItem: Grid {
-        //...
-//! [PlaneMapQuick1]
+    sourceItem: Grid
+    {
         columns: 1
         Grid
         {
@@ -82,7 +81,7 @@ MapQuickItem {
     {
         banner.text = message
         playMessage.start()
-//! [PlaneMapQuick2]
+
     }
 }
-//! [PlaneMapQuick2]
+

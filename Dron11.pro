@@ -37,3 +37,5 @@ HEADERS += \
     coordinateorder.h \
     planecontroller.h \
     wayinfo.h
+
+DISTFILES +=

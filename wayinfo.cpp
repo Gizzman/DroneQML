@@ -107,17 +107,17 @@ void WayInfo::handleDate()// todo rename
     double pointY1;
     if(positionPoints==1 || positionPoints==2)
     {
-        pointY1=pointStart.latitude()-abs((width/2)/(111.32*1000));
+        pointY1=pointStart.latitude()-abs((width/2)/(metersDegree.first));
     }else
     {
-       pointY1=pointStart.latitude()+abs((width/2)/(111.32*1000));
+       pointY1=pointStart.latitude()+abs((width/2)/(metersDegree.first));
     }
     if(positionPoints==1 || positionPoints==4)
     {
-          pointX1=pointStart.longitude()+((length/2)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000));
+          pointX1=pointStart.longitude()+((length/2)/metersDegree.second);
     }else
     {
-          pointX1=pointStart.longitude()-((length/2)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000));
+          pointX1=pointStart.longitude()-((length/2)/metersDegree.second);
     }
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
@@ -138,10 +138,10 @@ void WayInfo::handleDate()// todo rename
           if(positionPoints==1 || positionPoints==2)
           {
 
-               a[i][0].second.first=a[i-1][0].second.first-abs((width)/(111.32*1000));//down
+               a[i][0].second.first=a[i-1][0].second.first-abs((width)/metersDegree.first);//down
           }else
           {
-                a[i][0].second.first=a[i-1][0].second.first+abs((width)/(111.32*1000));;
+                a[i][0].second.first=a[i-1][0].second.first+abs((width)/metersDegree.first);
           }
         }
         a[i][0].second.second=pointX1;
@@ -151,10 +151,10 @@ void WayInfo::handleDate()// todo rename
             {
                 if(positionPoints==1 || positionPoints==4)
                 {
-                     a[i][j].second.second=a[i][j-1].second.second+(length)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000);
+                     a[i][j].second.second=a[i][j-1].second.second+(length)/metersDegree.second;
                 }else
                 {
-                     a[i][j].second.second=a[i][j-1].second.second-(length)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000);
+                     a[i][j].second.second=a[i][j-1].second.second-(length)/metersDegree.second;
                 }
             }
             a[i][j].second.first=a[i][0].second.first;
@@ -165,7 +165,7 @@ void WayInfo::handleDate()// todo rename
 
     int countSquare=countSquareLMain*countSquareWMain;
     double distanceStart=0;
-    pair<int,int> pos=choseStart(a,pointStart,pointEnd,pointBase,distanceStart);
+    pair<int,int> pos=choseStart(a,pointStart,pointEnd,pointBase,distanceStart,metersDegree);
     a[pos.first][pos.second].first=1;  // ми були в початковій координаті
     order=new CoordinateOrder(countSquareLMain,countSquareWMain,length,width);
     order->coordinateOrder(a,pos.first,pos.second,countSquare);
@@ -184,7 +184,7 @@ void WayInfo::handleDate()// todo rename
     }
     _wayFly.push_back(pointBase);
 
-    double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
+    double latitudeEnd=differentYEnd*metersDegree.first;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;
     double distanceEnd=sqrt(pow(latitudeEnd,2)+pow(longtitudeEnd,2)+pow(height,2));//?????????????????
 
@@ -202,7 +202,7 @@ void WayInfo::handleDate()// todo rename
 }
 
 
-pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> > > &a,QGeoCoordinate &start, QGeoCoordinate &end, QGeoCoordinate &base,double &distanceStart)
+pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> > > &a,QGeoCoordinate &start, QGeoCoordinate &end, QGeoCoordinate &base,double &distanceStart,pair<double, double> &metersDegree)
 {
     pair<int,int> position;
     double min=INT_MAX;
@@ -219,8 +219,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][0].second.second);
                    diffY=abs(base.latitude()-a[i][0].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -237,8 +237,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[0][i].second.second);
                    diffY=abs(base.latitude()-a[0][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -255,8 +255,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][countSquareLMain-1].second.second);
                    diffY=abs(base.latitude()-a[i][countSquareLMain-1].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -273,8 +273,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[countSquareWMain-1][i].second.second);
                    diffY=abs(base.latitude()-a[countSquareWMain-1][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -289,40 +289,40 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 position.first=0;
                 position.second=0;
 
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=end.longitude() && base.latitude()>=start.latitude())//6
             {
                 position.first=0;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=end.longitude() && base.latitude()<=end.latitude()) //7
             {
                 position.first=countSquareWMain-1;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()<=start.longitude() && base.latitude()<=start.latitude())//8
             {
                 position.first=countSquareWMain-1;
                 position.second=0;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY;//metersDegree.first
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }
@@ -334,8 +334,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][0].second.second);
                    diffY=abs(base.latitude()-a[i][0].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -352,8 +352,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[0][i].second.second);
                    diffY=abs(base.latitude()-a[0][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -370,8 +370,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][countSquareLMain-1].second.second);
                    diffY=abs(base.latitude()-a[i][countSquareLMain-1].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -388,8 +388,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[countSquareWMain-1][i].second.second);
                    diffY=abs(base.latitude()-a[countSquareWMain-1][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -405,38 +405,38 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 position.second=0;
                 diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.first][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=start.longitude() && base.latitude()>=start.latitude())//6
             {
                 position.first=0;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.first].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=start.longitude() && base.latitude()<=end.latitude()) //7
             {
                 position.first=countSquareWMain-1;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()<=end.longitude() && base.latitude()<=end.latitude())//8
             {
                 position.first=countSquareWMain-1;
                 position.second=0;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }
@@ -448,8 +448,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][0].second.second);
                    diffY=abs(base.latitude()-a[i][0].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -466,8 +466,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[0][i].second.second);
                    diffY=abs(base.latitude()-a[0][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -484,8 +484,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][countSquareLMain-1].second.second);
                    diffY=abs(base.latitude()-a[i][countSquareLMain-1].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -502,8 +502,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[countSquareWMain-1][i].second.second);
                    diffY=abs(base.latitude()-a[countSquareWMain-1][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -519,38 +519,38 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 position.second=0;
                 diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.first][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=start.longitude() && base.latitude()>=end.latitude())//6
             {
                 position.first=0;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=start.longitude() && base.latitude()<=start.latitude()) //7
             {
                 position.first=countSquareWMain-1;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()<=end.longitude() && base.latitude()<=end.latitude())//8
             {
                 position.first=countSquareWMain-1;
                 position.second=0;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }
@@ -562,8 +562,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][0].second.second);
                    diffY=abs(base.latitude()-a[i][0].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -580,8 +580,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[0][i].second.second);
                    diffY=abs(base.latitude()-a[0][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -597,8 +597,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[i][countSquareLMain-1].second.second);
                    diffY=abs(base.latitude()-a[i][countSquareLMain-1].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -614,8 +614,8 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 {
                    diffX=abs(base.longitude()-a[countSquareWMain-1][i].second.second);
                    diffY=abs(base.latitude()-a[countSquareWMain-1][i].second.first);
-                   latitudeS=diffY*111.32*1000;
-                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   latitudeS=diffY*metersDegree.first;
+                   longtitudeS=metersDegree.second*diffX;
                    distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                    if (distanceStart<min)
                    {
@@ -631,38 +631,38 @@ pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> >
                 position.second=0;
                 diffX=abs(base.longitude()-a[position.first][position.second].second.second);
                 diffY=abs(base.latitude()-a[position.first][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=end.longitude() && base.latitude()>=end.latitude())//6
             {
                 position.first=0;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()>=end.longitude() && base.latitude()<=start.latitude()) //7
             {
                 position.first=countSquareWMain-1;
                 position.second=countSquareLMain-1;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }else if (base.longitude()<=start.longitude() && base.latitude()<=start.latitude())//8
             {
                 position.first=countSquareWMain-1;
                 position.second=0;
-                diffX=abs(base.longitude()-a[position.second][position.first].second.second);
-                diffY=abs(base.latitude()-a[position.second][position.second].second.first);
-                latitudeS=diffY*111.32*1000;
-                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                diffX=abs(base.longitude()-a[position.first][position.second].second.second);
+                diffY=abs(base.latitude()-a[position.first][position.second].second.first);
+                latitudeS=diffY*metersDegree.first;
+                longtitudeS=metersDegree.second*diffX;
                 distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
                 return position;
             }

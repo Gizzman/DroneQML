@@ -46,7 +46,7 @@ private:
     //point.second Y latitude
     CoordinateOrder *order;
     QGeoCoordinate pointBase,pointStart,pointEnd;
-    pair<int,int> choseStart(vector<vector<pair<int,pair<double, double>> > > &a,QGeoCoordinate &start, QGeoCoordinate &end, QGeoCoordinate &base,double &distanceStart);
+    pair<int,int> choseStart(vector<vector<pair<int,pair<double, double>> > > &a, QGeoCoordinate &start, QGeoCoordinate &end, QGeoCoordinate &base, double &distanceStart, pair<double, double> &metersDegree);
     //differentX, differentY
     double lengthDegreeX=0,lengthDegreeY=0,height=0;
 

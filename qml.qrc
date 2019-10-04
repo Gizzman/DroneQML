@@ -3,7 +3,7 @@
         <file>main.qml</file>
         <file>Plane.qml</file>
         <file>airplane.png</file>
-        <file>Point.qml</file>
         <file>marker.png</file>
+        <file>Фон.png</file>
     </qresource>
 </RCC>

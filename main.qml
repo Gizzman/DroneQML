@@ -10,8 +10,24 @@ Window
     id: aplication
     width: 800
     height: 600
+    color: "#ffffff"
     visible: true
     title: "Dron"
+    Item {
+        id: name
+
+        Image{
+
+                   id: back
+                   x: 0
+                   y: 0
+                   width: 600
+                   height: 879
+                   source: "Фон.png"
+
+                    }
+
+    }
     property variant startPositioLant: QtPositioning.coordinate( 50.161751, 27.078982 )
     property int comb
 
@@ -189,7 +205,9 @@ Window
                     id: label14
                     width: 194
                     height: 23
+                    color: "#e2e6ea"
                     text: "Зарад батареї"
+                    styleColor: "#e5dfdf"
                     font.family: "Arial"
                     font.pointSize: 11
                     verticalAlignment: Text.AlignTop
@@ -408,26 +426,40 @@ Window
                 name: "esri" // "mapboxgl", "esri", ...
             }
 
-            Component.onCompleted:
-            {
-            //   var compon=Qt.createComponent("Point.qml")
-           //     compon.createObject(map)
+            MapQuickItem {
+                id:markerBase
+                sourceItem: Image{
+                    id: image
+                    source: "marker.png"
+
+                }
+
+                anchorPoint.x: image.width / 2
+                anchorPoint.y: image.height / 2
             }
-            MapItemView {
-                   model: searchModel
-                   delegate: MapQuickItem {
-                       coordinate: place.location.coordinate
+            MapQuickItem {
+                id:markerStart
+                sourceItem: Image{
+                    id: imageStart
+                    source: "marker.png"
 
-                       anchorPoint.x: image.width * 0.5
-                       anchorPoint.y: image.height
+                }
 
-                       sourceItem: Column {
-                           Image { id: image; source: "marker.png" }
-                           Text { text: title; font.bold: true }
-                       }
-                   }
+                anchorPoint.x: imageStart.width / 2
+                anchorPoint.y: imageStart.height / 2
             }
 
+            MapQuickItem {
+                id:markerEnd
+                sourceItem: Image{
+                    id: imageEnd
+                    source: "marker.png"
+
+                }
+
+                anchorPoint.x: imageEnd.width / 2
+                anchorPoint.y: imageEnd.height / 2
+            }
 
             MouseArea
             {
@@ -441,6 +473,7 @@ Window
 
                         if(radioBase.checked)
                         {
+                            markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
                             base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
                             radioBase.checkable=true
                             radioEnd.checkable=true;
@@ -448,6 +481,7 @@ Window
                             radioBase.checked=false
                         }else if(radioEnd.checked)
                         {
+                            markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
                             end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
                             radioBase.checkable=true
                             radioEnd.checkable=true;
@@ -455,6 +489,7 @@ Window
                             radioEnd.checked=false
                         } else if(radioStart.checked)
                         {
+                            markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
                             start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
                             radioBase.checkable=true
                             radioEnd.checkable=true;
@@ -551,6 +586,13 @@ Window
 
         }
     }
+    //! [Current Location]
+
+    //! [PlaceSearchModel]
+
+
+
+
 }
 
 

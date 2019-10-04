@@ -197,7 +197,7 @@ void WayInfo::handleDate()// todo rename
         QGeoCoordinate tmp(a[way[i].first][way[i].second].second.first,a[way[i].first][way[i].second].second.second);
         _wayFly.push_back(tmp);
     }
- //   _wayFly.push_back(pointBase);
+    _wayFly.push_back(pointBase);
 
     double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;

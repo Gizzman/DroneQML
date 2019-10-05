@@ -90,7 +90,7 @@ Window
             TextField {
                 id: he
                 width: 196
-                height: 23
+                height: 25
                 text: "150"
                 renderType: Text.QtRendering
                 font.family: "Arial"
@@ -113,7 +113,7 @@ Window
             {
                 id: focusdistance
                 width: 196
-                height: 23
+                height: 25
                 text: "50"
                 font.weight: Font.Normal
                 topPadding: 5
@@ -155,7 +155,7 @@ Window
                 {
                     id: h
                     width: 176
-                    height: 23
+                    height: 25
                     text: "24"
                     font.family: "Arial"
                     font.pointSize: 9
@@ -180,7 +180,7 @@ Window
                 {
                     id: v
                     width: 176
-                    height: 23
+                    height: 25
                     text: "36"
                     font.family: "Arial"
                     font.pointSize: 9
@@ -204,7 +204,7 @@ Window
             {
                 id: textbox11
                 width: 196
-                height: 23
+                height: 25
                 text: "22222"
                 font.family: "Arial"
                 font.pointSize: 9
@@ -225,7 +225,7 @@ Window
             {
                 id: costphoto
                 width: 196
-                height: 23
+                height: 25
                 text: "2222"
                 font.family: "Arial"
                 font.pointSize: 9
@@ -247,7 +247,7 @@ Window
             {
                 id: costfly
                 width: 196
-                height: 23
+                height: 25
                 text: "222"
                 font.family: "Arial"
                 font.pointSize: 9
@@ -274,7 +274,7 @@ Window
                 Layout.fillWidth: true
                 RadioButton {
                     id: radioBase
-                    height: 23
+                    height: 30
                     checkable: true
                     checked: false
                     onClicked:
@@ -319,7 +319,7 @@ Window
                 RadioButton {
                     id: radioStart
 
-                    height: 23
+                    height: 30
                     onClicked:
                     {
 
@@ -360,7 +360,7 @@ Window
                 Layout.fillWidth: true
                 RadioButton {
                     id: radioEnd
-                    height: 23
+                    height: 30
                     onClicked:
                     {
 

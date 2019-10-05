@@ -15,6 +15,7 @@ Window
     minimumHeight: 600
     maximumHeight: 600
     color: "#ffffff"
+    opacity: 1
     visible: true
     title: "Dron"
 
@@ -28,6 +29,7 @@ Window
             y: 0
             width: 800
             height: 600
+            fillMode: Image.Tile
             source: "Фон.png"
         }
 

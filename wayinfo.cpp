@@ -105,20 +105,27 @@ void WayInfo::handleDate()// todo rename
     qDebug()<<latitude/width<<" "<<longtitude/length;
     double pointX1;  // Координата центра першого прямокутника
     double pointY1;
-    if(positionPoints==1 || positionPoints==2)
+    switch(positionPoints)
     {
-        pointY1=pointStart.latitude()-abs((width/2)/(metersDegree.first));
-    }else
-    {
-       pointY1=pointStart.latitude()+abs((width/2)/(metersDegree.first));
+        case 1:
+            pointY1=pointStart.latitude()-abs((width/2)/(metersDegree.first));
+            pointX1=pointStart.longitude()+((length/2)/metersDegree.second);
+        break;
+        case 2:
+            pointY1=pointStart.latitude()+abs((width/2)/(metersDegree.first));
+            pointX1=pointEnd.longitude()-((length/2)/metersDegree.second);
+        break;
+        case 3:
+            pointY1=pointEnd.latitude()+abs((width/2)/(metersDegree.first));
+            pointX1=pointEnd.longitude()-((length/2)/metersDegree.second);
+        break;
+        case 4:
+            pointY1=pointEnd.latitude()+abs((width/2)/(metersDegree.first));
+            pointX1=pointStart.longitude()-((length/2)/metersDegree.second);
+        break;
     }
-    if(positionPoints==1 || positionPoints==4)
-    {
-          pointX1=pointStart.longitude()+((length/2)/metersDegree.second);
-    }else
-    {
-          pointX1=pointStart.longitude()-((length/2)/metersDegree.second);
-    }
+
+
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
     vector<pair<int,pair<double, double>>> def(countSquareLMain,*defpair) ;  // {ми там були, (Latitude1, Longtitude1)}, {чи ми там були, (Latitude2, Longtitude2)}
@@ -135,27 +142,14 @@ void WayInfo::handleDate()// todo rename
     {
         if(i!=0)
         {
-          if(positionPoints==1 || positionPoints==2)
-          {
-
-               a[i][0].second.first=a[i-1][0].second.first-abs((width)/metersDegree.first);//down
-          }else
-          {
-                a[i][0].second.first=a[i-1][0].second.first+abs((width)/metersDegree.first);
-          }
+            a[i][0].second.first=a[i-1][0].second.first-abs((width)/metersDegree.first);
         }
         a[i][0].second.second=pointX1;
         for (unsigned int j=0;j<countSquareLMain;++j)
         {
             if(j!=0)
-            {
-                if(positionPoints==1 || positionPoints==4)
-                {
-                     a[i][j].second.second=a[i][j-1].second.second+(length)/metersDegree.second;
-                }else
-                {
-                     a[i][j].second.second=a[i][j-1].second.second-(length)/metersDegree.second;
-                }
+            {   
+                a[i][j].second.second=a[i][j-1].second.second+(length)/metersDegree.second;
             }
             a[i][j].second.first=a[i][0].second.first;
             //qDebug()<<QString::number(a[i][j].second.first,'f',6)+", "+QString::number(a[i][j].second.second,'f',6);
@@ -166,7 +160,8 @@ void WayInfo::handleDate()// todo rename
     int countSquare=countSquareLMain*countSquareWMain;
     double distanceStart=0;
     pair<int,int> pos=choseStart(a,pointStart,pointEnd,pointBase,distanceStart,metersDegree);
-    a[pos.first][pos.second].first=1;  // ми були в початковій координаті
+    a[pos.first][pos.second].first=1;
+    qDebug()<<pos.first<<pos.second ;// ми були в початковій координаті
     order=new CoordinateOrder(countSquareLMain,countSquareWMain,length,width);
     order->coordinateOrder(a,pos.first,pos.second,countSquare);
     vector<pair<int,int>> way=order->getWay();

@@ -16,16 +16,15 @@ Window
     Item {
         id: name
 
-        Image{
-
+        Image
+        {
                    id: back
                    x: 0
                    y: 0
                    width: 600
                    height: 879
                    source: "Фон.png"
-
-                    }
+         }
 
     }
     property variant startPositioLant: QtPositioning.coordinate( 50.161751, 27.078982 )
@@ -69,7 +68,7 @@ Window
         Column {
 
         id: column
-        width: aplication.width/2
+        width: aplication.width/3
         height: aplication.height
 
         anchors.verticalCenter: parent.verticalCenter
@@ -419,7 +418,7 @@ Window
         Map {
             id: map
             zoomLevel: 15
-            width: aplication.width/2
+            width: aplication.width/1.5
             center: viewOfEurope
             height: aplication.height
             plugin: Plugin {

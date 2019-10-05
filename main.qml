@@ -18,13 +18,13 @@ Window
 
         Image
         {
-                   id: back
-                   x: 0
-                   y: 0
-                   width: 600
-                   height: 879
-                   source: "Фон.png"
-         }
+            id: back
+            x: 0
+            y: 0
+            width: 800
+            height: 600
+            source: "Фон.png"
+        }
 
     }
     property variant startPositioLant: QtPositioning.coordinate( 50.161751, 27.078982 )
@@ -34,7 +34,7 @@ Window
     property variant topLeftEurope: QtPositioning.coordinate(60.5, 0.0)
     property variant bottomRightEurope: QtPositioning.coordinate(51.0, 14.0)
     property variant viewOfEurope:
-            QtPositioning.rectangle(topLeftEurope, bottomRightEurope)
+        QtPositioning.rectangle(topLeftEurope, bottomRightEurope)
 
     property variant berlin: QtPositioning.coordinate(52.5175, 13.384)
     property variant oslo: QtPositioning.coordinate(59.9154, 10.7425)
@@ -55,6 +55,8 @@ Window
         id: row2
         width: aplication.width
         height: aplication.height
+        layoutDirection: Qt.RightToLeft
+        spacing: 7
         anchors.top: parent.top
         anchors.topMargin: 0
         anchors.bottom: parent.bottom
@@ -67,22 +69,14 @@ Window
 
         Column {
 
-        id: column
-        width: aplication.width/3
-        height: aplication.height
+            id: column
+            width: 200
+            height: aplication.height
 
-        anchors.verticalCenter: parent.verticalCenter
-        spacing: 6.7
-        transformOrigin: Item.Center
-            Row
-            {
-                id: row
-            width: 382
-            height: 33
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-                Label {
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 4
+            transformOrigin: Item.Center
+            Label {
                 id:label1
                 width: 194
                 height: 23
@@ -90,43 +84,41 @@ Window
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
-                }
-                TextField {
+            }
+
+            TextField {
                 id: he
-                width: 150
+                width: 196
                 height: 23
                 text: "150"
+                renderType: Text.QtRendering
                 font.family: "Arial"
                 font.pointSize: 9
-                }
             }
-            Row {
-                id: row1
-                width: 382
-                height: 33
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Label
-                {
-                    id:label2
-                    width: 194
-                    height: 23
-                    text: "Фокусна відстань об'єктива"
-                    font.pointSize: 11
-                    verticalAlignment: Text.AlignTop
-                    font.family: "Arial"
-                }
-                TextField
-                {
-                    id: focusdistance
-                    width: 150
-                    height: 23
-                    text: "50"
-                    Layout.fillWidth: false
-                    font.family: "Arial"
-                    font.pointSize: 9
-                }
+            Label
+            {
+                id:label2
+                width: 194
+                height: 23
+                color: "#2ba9b2"
+                text: "Фокусна відстань об'єктива"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+                font.family: "Arial"
             }
+
+            TextField
+            {
+                id: focusdistance
+                width: 196
+                height: 23
+                text: "50"
+                Layout.fillWidth: false
+                font.family: "Arial"
+                font.pointSize: 9
+            }
+
+
             Label
             {
                 id:label3
@@ -137,143 +129,132 @@ Window
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
             }
-            Row {
-                id: row13
-                width: 334
-            height: 32
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-                Row {
-                    id: row10
-                    width: 174
-                height: 32
-                    Label
-                    {
-                        id: label13
-                        width: 20
-                        height: 23
-                        text: "V"
-                        font.pointSize: 11
-                        font.family: "Arial"
-                        verticalAlignment: Text.AlignTop
-                    }
-                    TextField
-                    {
-                        id: v
-                        width: 142
-                        height: 23
-                        text: "36"
-                        font.family: "Arial"
-                        font.pointSize: 9
-                    }
-                }
-                Row
-                {
-                    id: row7
-                width: 190
-                height: 32
-                    Label
-                    {
-                        id:label5
-                        width: 20
-                        height: 23
-                        text: "H"
-                        font.pointSize: 11
-                        verticalAlignment: Text.AlignTop
-                        font.family: "Arial"
-                    }
-                    TextField
-                    {
-                        id: h
-                        width: 143
-                        height: 23
-                        text: "24"
-                        font.family: "Arial"
-                        font.pointSize: 9
-                    }
-                }
-            }
-            Row {
-                id: row12
-                width: 334
-                height: 32
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Label
-                {
-                    id: label14
-                    width: 194
-                    height: 23
-                    color: "#e2e6ea"
-                    text: "Зарад батареї"
-                    styleColor: "#e5dfdf"
-                    font.family: "Arial"
-                    font.pointSize: 11
-                    verticalAlignment: Text.AlignTop
-                }
-                TextField
-                {
-                    id: textbox11
-                    width: 150
-                    height: 23
-                    text: "22222"
-                    font.family: "Arial"
-                    font.pointSize: 9
-                }
-            }
-            Row {
-                id: row11
-                width: 334
-                height: 32
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Label
-                {
-                    id: label12
-                    width: 194
-                    height: 23
-                    text: "Витрати на фото"
-                    font.family: "Arial"
-                    font.pointSize: 11
-                    verticalAlignment: Text.AlignTop
-                }
-                TextField
-                {
-                    id: costphoto
-                    width: 150
-                    height: 23
-                    text: "2222"
-                    font.family: "Arial"
-                    font.pointSize: 9
-                }
-            }
             Row
             {
-                id: row5
-            width: 334
-            height: 32
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+                id: row7
+                width: 190
+                height: 32
+                spacing: 0
                 Label
                 {
-                    id:label8
-                    width: 194
+                    id:label5
+                    width: 20
                     height: 23
-                    text: "Витрати на політ"
+                    text: "H"
                     font.pointSize: 11
                     verticalAlignment: Text.AlignTop
                     font.family: "Arial"
                 }
                 TextField
                 {
-                    id: costfly
-                    width: 150
+                    id: h
+                    width: 176
                     height: 23
-                    text: "222"
+                    text: "24"
                     font.family: "Arial"
                     font.pointSize: 9
                 }
             }
+
+            Row {
+                id: row10
+                width: 174
+                height: 32
+                Label
+                {
+                    id: label13
+                    width: 20
+                    height: 23
+                    text: "V"
+                    font.pointSize: 11
+                    font.family: "Arial"
+                    verticalAlignment: Text.AlignTop
+                }
+                TextField
+                {
+                    id: v
+                    width: 176
+                    height: 23
+                    text: "36"
+                    font.family: "Arial"
+                    font.pointSize: 9
+                }
+            }
+            Label
+            {
+                id: label14
+                width: 194
+                height: 23
+                color: "#fbfbfb"
+                text: "Зарад батареї"
+                styleColor: "#e5dfdf"
+                font.family: "Arial"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+            }
+
+            TextField
+            {
+                id: textbox11
+                width: 196
+                height: 23
+                text: "22222"
+                font.family: "Arial"
+                font.pointSize: 9
+            }
+            Label
+            {
+                id: label12
+                width: 194
+                height: 23
+                text: "Витрати на фото"
+                font.family: "Arial"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+            }
+
+            TextField
+            {
+                id: costphoto
+                width: 196
+                height: 23
+                text: "2222"
+                font.family: "Arial"
+                font.pointSize: 9
+            }
+
+            Label
+            {
+                id:label8
+                width: 194
+                height: 23
+                text: "Витрати на політ"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+                font.family: "Arial"
+            }
+
+            TextField
+            {
+                id: costfly
+                width: 196
+                height: 23
+                text: "222"
+                font.family: "Arial"
+                font.pointSize: 9
+            }
+
+            Label
+            {
+                id: label9
+                width: 194
+                height: 23
+                text: "Координати бази"
+                font.pointSize: 11
+                font.family: "Arial"
+                verticalAlignment: Text.AlignTop
+            }
+
             Row
             {
                 id: row4
@@ -281,28 +262,7 @@ Window
                 height: 32
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Label
-                {
-                    id: label9
-                    width: 194
-                    height: 23
-                    text: "Координати бази"
-                    font.pointSize: 11
-                    font.family: "Arial"
-                    verticalAlignment: Text.AlignTop
-                }
-                TextField
-                {
-                    id: pointbase
-                    width: 150
-                    height: 23
-                    text:base
-                    font.family: "Arial"
-                    font.pointSize: 9
-                }
-
-
-                   RadioButton {
+                RadioButton {
                     id: radioBase
                     height: 23
                     checkable: true
@@ -314,34 +274,37 @@ Window
                         radioEnd.checkable=false;
                     }
                 }
-            }
-            Row
-            {
-                id: row9
-            width: 334
-            height: 32
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-                Label
-                {
-                    id: label11
-                    width: 194
-                    height: 23
-                    text: "Початкові координати поля"
-                    font.family: "Arial"
-                    font.pointSize: 11
-                    verticalAlignment: Text.AlignTop
-                }
+
                 TextField
                 {
-                    id: pointstart
+                    id: pointbase
                     width: 150
                     height: 23
-                    text: start
+                    text:base
                     font.family: "Arial"
                     font.pointSize: 9
                 }
 
+
+            }
+            Label
+            {
+                id: label11
+                width: 194
+                height: 23
+                text: "Початкові координати поля"
+                font.family: "Arial"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+            }
+
+            Row
+            {
+                id: row9
+                width: 334
+                height: 32
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 RadioButton {
                     id: radioStart
 
@@ -353,7 +316,29 @@ Window
                         radioEnd.checkable=false;
                     }
                 }
+
+                TextField
+                {
+                    id: pointstart
+                    width: 150
+                    height: 23
+                    text: start
+                    font.family: "Arial"
+                    font.pointSize: 9
+                }
+
             }
+            Label
+            {
+                id: label10
+                width: 194
+                height: 23
+                text: "Кінцеві координати поля"
+                font.family: "Arial"
+                font.pointSize: 11
+                verticalAlignment: Text.AlignTop
+            }
+
             Row
             {
                 id: row8
@@ -361,26 +346,6 @@ Window
                 height: 32
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Label
-                {
-                    id: label10
-                    width: 194
-                    height: 23
-                    text: "Кінцеві координати поля"
-                    font.family: "Arial"
-                    font.pointSize: 11
-                    verticalAlignment: Text.AlignTop
-                }
-                TextField
-                {
-                    id: pointend
-                    width: 150
-                    height: 23
-                    text: end
-                    font.family: "Arial"
-                    font.pointSize: 9
-                }
-
                 RadioButton {
                     id: radioEnd
                     height: 23
@@ -391,11 +356,22 @@ Window
                         radioStart.checkable=false;
                     }
                 }
+
+                TextField
+                {
+                    id: pointend
+                    width: 150
+                    height: 23
+                    text: end
+                    font.family: "Arial"
+                    font.pointSize: 9
+                }
+
             }
             Button
             {
                 id: button2
-                width: 150
+                width: 196
                 height: 25
                 text: "Вивести результат"
                 visible: true
@@ -412,13 +388,28 @@ Window
 
                 }
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
         Map {
             id: map
+            width: 593
             zoomLevel: 15
-            width: aplication.width/1.5
             center: viewOfEurope
             height: aplication.height
             plugin: Plugin {
@@ -470,31 +461,31 @@ Window
                 onClicked:
                 {
 
-                        if(radioBase.checked)
-                        {
-                            markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
-                            base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
-                            radioBase.checkable=true
-                            radioEnd.checkable=true;
-                            radioStart.checkable=true;
-                            radioBase.checked=false
-                        }else if(radioEnd.checked)
-                        {
-                            markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
-                            end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
-                            radioBase.checkable=true
-                            radioEnd.checkable=true;
-                            radioStart.checkable=true
-                            radioEnd.checked=false
-                        } else if(radioStart.checked)
-                        {
-                            markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
-                            start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
-                            radioBase.checkable=true
-                            radioEnd.checkable=true;
-                            radioStart.checkable=true
-                            radioStart.checked=false
-                        }
+                    if(radioBase.checked)
+                    {
+                        markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+                        base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        radioBase.checkable=true
+                        radioEnd.checkable=true;
+                        radioStart.checkable=true;
+                        radioBase.checked=false
+                    }else if(radioEnd.checked)
+                    {
+                        markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+                        end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        radioBase.checkable=true
+                        radioEnd.checkable=true;
+                        radioStart.checkable=true
+                        radioEnd.checked=false
+                    } else if(radioStart.checked)
+                    {
+                        markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+                        start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        radioBase.checkable=true
+                        radioEnd.checkable=true;
+                        radioStart.checkable=true
+                        radioStart.checked=false
+                    }
 
                 }
             }
@@ -573,8 +564,8 @@ Window
                 {
 
                     myPlaneControl.position = london;  // default position before moving
-                  //  myPlaneControl.from = point1;  // start position
-                 //   myPlaneControl.to = point2;  // end position
+                    //  myPlaneControl.from = point1;  // start position
+                    //   myPlaneControl.to = point2;  // end position
                     myPlaneControl.stoped.connect(stoped)
                     myPlaneControl.arrived.connect(arrived)
                 }

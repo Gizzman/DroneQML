@@ -165,7 +165,7 @@ Window
             Row {
                 id: row10
                 width: 174
-                height: 32
+                height: 25
                 Label
                 {
                     id: label13
@@ -190,14 +190,14 @@ Window
             {
                 id: label14
                 width: 194
-                height: 23
+                height: 28
                 color: "#fbfbfb"
                 text: "Зарад батареї"
-                topPadding: 6
+                topPadding: 0
                 styleColor: "#e5dfdf"
                 font.family: "Arial"
                 font.pointSize: 11
-                verticalAlignment: Text.AlignTop
+                verticalAlignment: Text.AlignBottom
             }
 
             TextField
@@ -257,12 +257,12 @@ Window
             {
                 id: label9
                 width: 194
-                height: 23
+                height: 28
                 text: "Координати бази"
                 topPadding: 6
                 font.pointSize: 11
                 font.family: "Arial"
-                verticalAlignment: Text.AlignTop
+                verticalAlignment: Text.AlignBottom
             }
 
             Row
@@ -384,7 +384,7 @@ Window
             {
                 id: button2
                 width: 196
-                height: 25
+                height: 30
                 text: "Вивести результат"
                 visible: true
                 onClicked:

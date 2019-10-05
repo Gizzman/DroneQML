@@ -113,6 +113,9 @@ Window
                 width: 196
                 height: 23
                 text: "50"
+                font.weight: Font.Normal
+                topPadding: 5
+                font.letterSpacing: -0.3
                 Layout.fillWidth: false
                 font.family: "Arial"
                 font.pointSize: 9

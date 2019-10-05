@@ -101,7 +101,7 @@ Window
                 id:label2
                 width: 194
                 height: 23
-                color: "#2ba9b2"
+                color: "#26282a"
                 text: "Фокусна відстань об'єктива"
                 topPadding: 6
                 font.pointSize: 11
@@ -191,7 +191,7 @@ Window
                 id: label14
                 width: 194
                 height: 28
-                color: "#fbfbfb"
+                color: "#26282a"
                 text: "Зарад батареї"
                 topPadding: 0
                 styleColor: "#e5dfdf"

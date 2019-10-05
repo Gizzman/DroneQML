@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iomanip>
 #include <vector>
-
+#include <QFile>
 using namespace  std;
 
 class WayInfo : public QObject

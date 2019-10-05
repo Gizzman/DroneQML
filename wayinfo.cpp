@@ -76,7 +76,7 @@ void WayInfo::handleDate()// todo rename
     latitude=lengthDegreeY*metersDegree.first;//Широта в метрах
     longtitude=lengthDegreeX*metersDegree.second;//Довгота в метрах
 
-    qDebug()<<"Latitude v metrax, longtitude: "<<latitude<<" "<<longtitude;
+    qDebug()<<"Latitude and longtitude in metres : "<<latitude<<" "<<longtitude;
 
     countSquareWDouble = abs(latitude/width);
     countSquareLDouble = abs(longtitude/length);
@@ -168,17 +168,21 @@ void WayInfo::handleDate()// todo rename
     double differentXEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.second-pointBase.longitude();
     double differentYEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.first-pointBase.latitude();
     qDebug()<<"Way points:";
-
+    QFile wayTXT("Way.txt");
+    wayTXT.open(QIODevice::WriteOnly);
+    QTextStream out(&wayTXT);
     _wayFly.push_back(pointBase);
+    out<<"Point base: "<<QString::number(pointBase.latitude(),'f',9)<<','<<QString::number(pointBase.longitude(),'f',9)<<'\n';
+    out<<"Points when dron takes photo:\n";
     for(int i=0;i<countSquare;++i)
     {
 
-        qDebug()<<QString::number(a[way[i].first][way[i].second].second.first,'f',6)<<QString::number(a[way[i].first][way[i].second].second.second,'f',6);
+        out<<QString::number(a[way[i].first][way[i].second].second.first,'f',9)+','+QString::number(a[way[i].first][way[i].second].second.second,'f',9)<<" heigth:"<<height<<'\n';
         QGeoCoordinate tmp(a[way[i].first][way[i].second].second.first,a[way[i].first][way[i].second].second.second);
         _wayFly.push_back(tmp);
     }
     _wayFly.push_back(pointBase);
-
+    out<<"Point base="<<QString::number(pointBase.latitude(),'f',9)<<','<<QString::number(pointBase.longitude(),'f',9)<<'\n';
     double latitudeEnd=differentYEnd*metersDegree.first;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;
     double distanceEnd=sqrt(pow(latitudeEnd,2)+pow(longtitudeEnd,2)+pow(height,2));//?????????????????

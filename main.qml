@@ -407,23 +407,7 @@ Window
 
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
 
         Map {
             id: map
@@ -435,6 +419,18 @@ Window
                 name: "esri" // "mapboxgl", "esri", ...
             }
 
+            MapPolyline {
+                    id:poleFly
+                    line.width: 3
+                    line.color: 'green'
+
+                }
+            MapPolyline {
+                    id:pole
+                    line.width: 3
+                    line.color: 'green'
+
+                }
             MapQuickItem {
                 id:markerBase
                 sourceItem: Image{
@@ -470,6 +466,7 @@ Window
                 anchorPoint.y: imageEnd.height / 2
             }
 
+
             MouseArea
             {
 
@@ -483,7 +480,9 @@ Window
                     if(radioBase.checked)
                     {
                         markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+
                         base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+
                         radioBase.checkable=true
                         radioEnd.checkable=true;
                         radioStart.checkable=true;
@@ -499,6 +498,7 @@ Window
                     } else if(radioStart.checked)
                     {
                         markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+
                         start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
                         radioBase.checkable=true
                         radioEnd.checkable=true;
@@ -528,17 +528,9 @@ Window
                             return;
                         }
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-                        myPlane.onPlaneClicked();
+
+
                     }
-                }
-
-                function onPlaneClicked()
-                {
-                    //myPlaneControl.arrived.connect(arrived);
-                    //stop=false;
-                    //myPlane.arrived();
-
-                    //myPlaneAnimation.start();
                 }
 
                 function arrived()
@@ -546,6 +538,7 @@ Window
                     if(!stop)
                     {
                         myPlaneControl.pos();
+                        poleFly.addCoordinate(myPlaneControl.position)
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
                         myPlaneAnimation.start()
                         myPlane.showMessage(qsTr("take Photo"))
@@ -563,7 +556,6 @@ Window
                     NumberAnimation
                     {
                         // Rotation to next point
-
                         target: myPlane; property: "bearing"; duration: 10
                         easing.type: Easing.InOutQuad
                         to: myPlaneAnimation.rotationDirection

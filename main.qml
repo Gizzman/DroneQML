@@ -9,10 +9,15 @@ Window
 {
     id: aplication
     width: 800
+    minimumWidth: 800
+    maximumWidth: 800
     height: 600
+    minimumHeight: 600
+    maximumHeight: 600
     color: "#ffffff"
     visible: true
     title: "Dron"
+
     Item {
         id: name
 

@@ -81,6 +81,7 @@ Window
                 width: 194
                 height: 23
                 text: "Висота польоту"
+                topPadding: 6
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
@@ -102,6 +103,7 @@ Window
                 height: 23
                 color: "#2ba9b2"
                 text: "Фокусна відстань об'єктива"
+                topPadding: 6
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
@@ -128,6 +130,7 @@ Window
                 width: 193
                 height: 23
                 text: "Геометрія фотосенсора"
+                topPadding: 6
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
@@ -136,7 +139,7 @@ Window
             {
                 id: row7
                 width: 190
-                height: 32
+                height: 30
                 spacing: 0
                 Label
                 {
@@ -190,6 +193,7 @@ Window
                 height: 23
                 color: "#fbfbfb"
                 text: "Зарад батареї"
+                topPadding: 6
                 styleColor: "#e5dfdf"
                 font.family: "Arial"
                 font.pointSize: 11
@@ -211,6 +215,7 @@ Window
                 width: 194
                 height: 23
                 text: "Витрати на фото"
+                topPadding: 6
                 font.family: "Arial"
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
@@ -232,6 +237,7 @@ Window
                 width: 194
                 height: 23
                 text: "Витрати на політ"
+                topPadding: 6
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
                 font.family: "Arial"
@@ -253,6 +259,7 @@ Window
                 width: 194
                 height: 23
                 text: "Координати бази"
+                topPadding: 6
                 font.pointSize: 11
                 font.family: "Arial"
                 verticalAlignment: Text.AlignTop
@@ -262,7 +269,7 @@ Window
             {
                 id: row4
                 width: 334
-                height: 32
+                height: 30
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 RadioButton {
@@ -282,7 +289,7 @@ Window
                 {
                     id: pointbase
                     width: 150
-                    height: 23
+                    height: 30
                     text:base
                     font.family: "Arial"
                     font.pointSize: 9
@@ -296,6 +303,7 @@ Window
                 width: 194
                 height: 23
                 text: "Початкові координати поля"
+                topPadding: 6
                 font.family: "Arial"
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
@@ -305,7 +313,7 @@ Window
             {
                 id: row9
                 width: 334
-                height: 32
+                height: 30
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 RadioButton {
@@ -324,7 +332,7 @@ Window
                 {
                     id: pointstart
                     width: 150
-                    height: 23
+                    height: 30
                     text: start
                     font.family: "Arial"
                     font.pointSize: 9
@@ -337,6 +345,7 @@ Window
                 width: 194
                 height: 23
                 text: "Кінцеві координати поля"
+                topPadding: 6
                 font.family: "Arial"
                 font.pointSize: 11
                 verticalAlignment: Text.AlignTop
@@ -364,7 +373,7 @@ Window
                 {
                     id: pointend
                     width: 150
-                    height: 23
+                    height: 30
                     text: end
                     font.family: "Arial"
                     font.pointSize: 9

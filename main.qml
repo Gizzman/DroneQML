@@ -396,6 +396,7 @@ Window
                 visible: true
                 onClicked:
                 {
+
                     way.setCoordinates(pointbase.text,1);
                     way.setCoordinates(pointend.text,2);
                     way.setCoordinates(pointstart.text,3);
@@ -403,8 +404,19 @@ Window
                     way.handleDate();
                     viewOfEurope=way.basePosition();
                     stop=false;
+
                     myPlane.arrived();
 
+
+                }
+                function clearDrawedWay()
+                {
+                    var n=way.countSquares();
+                    for(var i=0;i<n;i+=1)
+                    {
+                        myPlane.showMessage(i);
+                        poleFly.removeCoordinate(i);
+                    }
                 }
             }
         }
@@ -422,7 +434,7 @@ Window
             MapPolyline {
                     id:poleFly
                     line.width: 3
-                    line.color: 'green'
+                    line.color: 'black'
 
                 }
             MapPolyline {
@@ -470,10 +482,8 @@ Window
             MouseArea
             {
 
-                anchors.fill: parent
+                anchors.fill: map
                 hoverEnabled: true
-
-
                 onClicked:
                 {
 
@@ -538,10 +548,14 @@ Window
                     if(!stop)
                     {
                         myPlaneControl.pos();
+
                         poleFly.addCoordinate(myPlaneControl.position)
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
                         myPlaneAnimation.start()
                         myPlane.showMessage(qsTr("take Photo"))
+                    }else
+                    {
+                        poleFly.addCoordinate(way.basePosition())
                     }
 
                 }

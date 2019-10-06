@@ -33,7 +33,50 @@ pair<double, double> getLengthDegree(double latDegree)
   lengthDegree.second = 111412.84*cos(lat) - 93.5*cos(3*lat) + 0.118 * cos(5*lat);
   return lengthDegree;
 }
+QList<QGeoCoordinate> WayInfo::wayFly()
+{
+    return _wayFly;
+}
 
+int WayInfo::countSquares()
+{
+    return countSquareLMain*countSquareWMain;
+}
+
+QGeoCoordinate WayInfo::basePosition()
+{
+    return pointBase;
+}
+void WayInfo::setAllParametrs(QString focus,QString horizA,QString verticalA,QString costPhoto,QString costFly,QString he)
+{
+    focusDistance=focus.toDouble();
+    horizontalAngel=horizA.toDouble();
+    verticalAngel=verticalA.toDouble();
+    vutrnafoto=costPhoto.toDouble();
+    vutr=costFly.toDouble();
+    height=he.toDouble();
+}
+void WayInfo::setCoordinates(QString coordinates,int combin)
+{
+
+    switch(combin)
+    {
+        case 1:
+            pointBase.setLatitude(coordinates.split(",")[0].toDouble());
+            pointBase.setLongitude(coordinates.split(",")[1].toDouble());
+        break;
+        case  2:
+
+            pointEnd.setLatitude(coordinates.split(",")[0].toDouble());
+            pointEnd.setLongitude(coordinates.split(",")[1].toDouble());
+        break;
+        case 3:
+
+            pointStart.setLatitude(coordinates.split(",")[0].toDouble());
+            pointStart.setLongitude(coordinates.split(",")[1].toDouble());
+        break;
+    }
+}
 
 
 void WayInfo::handleDate()// todo rename
@@ -42,8 +85,8 @@ void WayInfo::handleDate()// todo rename
     double aH=2*(atan(horizontalAngel/(2*focusDistance))*180/pi);
     double aV=2*(atan(verticalAngel/(2*focusDistance))*180/ pi);
 
-    length=2*tan(0.5*aH*pi/180)*height;
-    width= 2*tan(0.5*aV*pi/180)*height;
+    double length=2*tan(0.5*aH*pi/180)*height;
+    double width= 2*tan(0.5*aV*pi/180)*height;
 
     qDebug()<<"length width meters"<<length<<" "<<width<<pointStart.longitude();
 
@@ -171,6 +214,7 @@ void WayInfo::handleDate()// todo rename
     QFile wayTXT("Way.txt");
     wayTXT.open(QIODevice::WriteOnly);
     QTextStream out(&wayTXT);
+    _wayFly.clear();
     _wayFly.push_back(pointBase);
     out<<"Point base: "<<QString::number(pointBase.latitude(),'f',9)<<','<<QString::number(pointBase.longitude(),'f',9)<<'\n';
     out<<"Points when dron takes photo:\n";

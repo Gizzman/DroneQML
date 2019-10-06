@@ -20,14 +20,7 @@ public:
     explicit WayInfo(QObject *parent = nullptr);
 
 
-    QString coorBase()
-    {
-        return "DDD";
-    }
-    int countSquares()
-    {
-        return countSquareLMain*countSquareWMain;
-    }
+
     void setCoorBase( QString &coor)
     {
 
@@ -60,48 +53,13 @@ private:
     int positionPoints;//в Ростіка на телефоні або ТЮІ 2019
     double length=0,width=0;
 public slots:
-    QList<QGeoCoordinate> wayFly()
-    {
-        return _wayFly;
-    }
-    QGeoCoordinate basePosition()
-    {
-        return pointBase;
-    }
+    QList<QGeoCoordinate> wayFly();
 
-    void setCoordinates(QString coordinates,int combin)
-    {
-
-        switch(combin)
-        {
-            case 1:
-
-                pointBase.setLatitude(coordinates.split(",")[0].toDouble());
-                pointBase.setLongitude(coordinates.split(",")[1].toDouble());
-            break;
-            case  2:
-
-                pointEnd.setLatitude(coordinates.split(",")[0].toDouble());
-                pointEnd.setLongitude(coordinates.split(",")[1].toDouble());
-            break;
-            case 3:
-
-                pointStart.setLatitude(coordinates.split(",")[0].toDouble());
-                pointStart.setLongitude(coordinates.split(",")[1].toDouble());
-            break;
-        }
-    }
-    void setAllParametrs(QString focus,QString horizA,QString verticalA,QString costPhoto,QString costFly,QString he)
-    {
-        focusDistance=focus.toDouble();
-        horizontalAngel=horizA.toDouble();
-        verticalAngel=verticalA.toDouble();
-        vutrnafoto=costPhoto.toDouble();
-        vutr=costFly.toDouble();
-        height=he.toDouble();
-    }
-
-   void handleDate();
+    int countSquares();
+    QGeoCoordinate basePosition();
+    void setCoordinates(QString coordinates,int combin);
+    void setAllParametrs(QString focus,QString horizA,QString verticalA,QString costPhoto,QString costFly,QString he);
+    void handleDate();
 };
 
 #endif // WAYINFO_H

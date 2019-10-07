@@ -59,6 +59,7 @@ Window
     property string base:"50.190133, 27.063131"
     property string start:"50.189676, 27.063756"
     property string end: "50.186699, 27.069989"
+    property bool  clear: false
     MessageDialog {
         id: messageDialog
         title: "Problem"
@@ -404,6 +405,11 @@ Window
                 onClicked:
                 {
                     canFly=true;
+                    if(clear)
+                    {
+                        clear=true;
+                        clearDrawedWay();
+                    }
                     way.setCoordinates(pointbase.text,1);
                     way.setCoordinates(pointend.text,2);
                     way.setCoordinates(pointstart.text,3);
@@ -415,18 +421,14 @@ Window
                         stop=false;
                         myPlane.arrived();
                     }
-
-
-
-
                 }
                 function clearDrawedWay()
                 {
                     var n=way.countSquares();
-                    for(var i=0;i<n;i+=1)
+                    for(;n>0;n-=1)
                     {
-                        myPlane.showMessage(i);
-                        poleFly.removeCoordinate(i);
+                        myPlane.showMessage(n);
+                        poleFly.removeCoordinate(n);
                     }
                 }
             }

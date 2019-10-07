@@ -1,5 +1,5 @@
 #include "coordinateorder.h"
-
+#include <QtDebug>
 
 
 CoordinateOrder::CoordinateOrder(long L, long W, double Length, double Width):L(L),W(W), length(Length),width(Width)
@@ -12,6 +12,7 @@ void CoordinateOrder::coordinateOrder(vector<vector<pair<int,pair<double, double
 {
     coordinatsWay.first=w;
     coordinatsWay.second=l;
+    qDebug()<<w<<l;
     way.push_back(coordinatsWay);
     if(l+1<L)//Right
     {

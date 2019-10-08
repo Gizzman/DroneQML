@@ -419,15 +419,18 @@ Window
                     {
                         viewOfEurope=way.basePosition();
                         stop=false;
+
                         myPlane.arrived();
+                        clear=true;
                     }
                 }
                 function clearDrawedWay()
                 {
                     var n=way.countSquares();
-                    for(;n>0;n-=1)
+                    n+=2
+                    for(;n>=0;n-=1)
                     {
-                        myPlane.showMessage(n);
+                        console.log(n+"ddd")
                         poleFly.removeCoordinate(n);
                     }
                 }
@@ -512,7 +515,7 @@ Window
 
                     if(radioBase.checked)
                     {
-                        markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+                        markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
 
                         base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
 
@@ -522,7 +525,7 @@ Window
                         radioBase.checked=false
                     }else if(radioEnd.checked)
                     {
-                        markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+                        markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                         end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
                         radioBase.checkable=true
                         radioEnd.checkable=true;
@@ -530,9 +533,10 @@ Window
                         radioEnd.checked=false
                     } else if(radioStart.checked)
                     {
-                        markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x-1.5,mouse.y-image.width/2-3))
+
 
                         start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                         radioBase.checkable=true
                         radioEnd.checkable=true;
                         radioStart.checkable=true
@@ -546,12 +550,11 @@ Window
             Plane
             {
                 id: myPlane
-                pilotName: "my own plane"
+                pilotName: "Drone"
                 coordinate: myPlaneControl.position
 
                 MouseArea
                 {
-                    //for(var i; i<=1; i++){
                     anchors.fill: parent
                     onClicked:
                     {
@@ -561,8 +564,6 @@ Window
                             return;
                         }
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
-
-
                     }
                 }
 
@@ -570,8 +571,7 @@ Window
                 {
                     if(!stop)
                     {
-                        myPlaneControl.pos();
-
+                        myPlaneControl.pos()
                         poleFly.addCoordinate(myPlaneControl.position)
                         myPlaneAnimation.rotationDirection = myPlaneControl.position.azimuthTo(myPlaneControl.to)
                         myPlaneAnimation.start()
@@ -612,8 +612,6 @@ Window
                 {
 
                     myPlaneControl.position = london;  // default position before moving
-                    //  myPlaneControl.from = point1;  // start position
-                    //   myPlaneControl.to = point2;  // end position
                     myPlaneControl.stoped.connect(stoped)
                     myPlaneControl.arrived.connect(arrived)
                 }
@@ -624,12 +622,6 @@ Window
 
         }
     }
-    //! [Current Location]
-
-    //! [PlaceSearchModel]
-
-
-
 
 }
 

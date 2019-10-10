@@ -220,7 +220,7 @@ Window
                 id: energy
                 width: 196
                 height: 25
-                text: "22222"
+                text: "5843"
                 font.family: "Arial"
                 font.pointSize: 9
             }
@@ -241,7 +241,7 @@ Window
                 id: costphoto
                 width: 196
                 height: 25
-                text: "2222"
+                text: "22"
                 font.family: "Arial"
                 font.pointSize: 9
             }
@@ -263,7 +263,7 @@ Window
                 id: costfly
                 width: 196
                 height: 25
-                text: "222"
+                text: "2"
                 font.family: "Arial"
                 font.pointSize: 9
             }
@@ -410,11 +410,13 @@ Window
                         clear=true;
                         clearDrawedWay();
                     }
+                    
                     way.setCoordinates(pointbase.text,1);
                     way.setCoordinates(pointend.text,2);
                     way.setCoordinates(pointstart.text,3);
                     way.setAllParametrs(focusdistance.text,h.text,v.text,costphoto.text,costfly.text,he.text,energy.text)
                     way.handleDate();
+                   
                     if(canFly)
                     {
                         viewOfEurope=way.basePosition();
@@ -437,8 +439,9 @@ Window
             }
             function chanche()
             {
+
                 messageDialog.visible=true
-                messageDialog.text="shortage energy of batery"
+                messageDialog.text="Нехватає заряду.Потрібно "+way.countenergy().toFixed(3)
                 canFly=false
             }
             Component.onCompleted:

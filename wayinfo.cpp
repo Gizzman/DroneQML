@@ -47,6 +47,15 @@ QGeoCoordinate WayInfo::basePosition()
 {
     return pointBase;
 }
+QGeoCoordinate WayInfo::endPosition()
+{
+    return  pointEnd;
+}
+
+QGeoCoordinate WayInfo::startPosition()
+{
+    return  pointStart;
+}
 void WayInfo::setAllParametrs(QString focus,QString horizA,QString verticalA,QString costPhoto,QString costFly,QString he,QString ene)
 {
     focusDistance=focus.toDouble();
@@ -238,7 +247,7 @@ void WayInfo::handleDate()// todo rename
     qDebug()<<QString::number(d,'f',6);
     qDebug()<<countSquare;
 
-    double pal=d*vutr + vutrnafoto*countSquare;qDebug()<<QString::number(pal,'f',6);
+    pal=d*vutr + vutrnafoto*countSquare;qDebug()<<QString::number(pal,'f',6);
     if(energy<pal)
     {
         emit shortageEnergy();
@@ -247,6 +256,10 @@ void WayInfo::handleDate()// todo rename
 
 }
 
+double WayInfo::countenergy()
+{
+    return pal;
+}
 
 pair<int,int> WayInfo::choseStart(vector<vector<pair<int,pair<double, double>> > > &a,QGeoCoordinate &start, QGeoCoordinate &end, QGeoCoordinate &base,double &distanceStart,pair<double, double> &metersDegree)
 {

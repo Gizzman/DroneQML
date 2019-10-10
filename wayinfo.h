@@ -19,8 +19,6 @@ class WayInfo : public QObject
 public:
     explicit WayInfo(QObject *parent = nullptr);
 
-
-
     void setCoorBase( QString &coor)
     {
 
@@ -50,14 +48,17 @@ private:
     double energy=0; //Енегргія
     double vusot=0; //Висота польоту
     double vutrnafoto=0;//витрати на політ
-    double focusDistance,horizontalAngel, verticalAngel;
+    double focusDistance,horizontalAngel, verticalAngel,pal;
     int countSquareWMain, countSquareLMain;
     int positionPoints;//в Ростіка на телефоні або ТЮІ 2019
     double length=0,width=0;
 public slots:
     QList<QGeoCoordinate> wayFly();
     int countSquares();
+    QGeoCoordinate endPosition();
+    QGeoCoordinate startPosition();
     QGeoCoordinate basePosition();
+    double countenergy();
     void setCoordinates(QString coordinates,int combin);
     void setAllParametrs(QString focus, QString horizA, QString verticalA, QString costPhoto, QString costFly, QString he, QString energy);
     void handleDate();

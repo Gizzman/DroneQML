@@ -517,7 +517,7 @@ Window
                     {
                         markerBase.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
 
-                        base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        base=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude.toFixed(7)+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude.toFixed(7);
 
                         radioBase.checkable=true
                         radioEnd.checkable=true;
@@ -526,7 +526,7 @@ Window
                     }else if(radioEnd.checked)
                     {
                         markerEnd.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
-                        end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        end=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude.toFixed(7)+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude.toFixed(7);
                         radioBase.checkable=true
                         radioEnd.checkable=true;
                         radioStart.checkable=true
@@ -535,7 +535,7 @@ Window
                     {
 
 
-                        start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude;
+                        start=map.toCoordinate(Qt.point(mouse.x,mouse.y)).latitude.toFixed(7)+','+ map.toCoordinate(Qt.point(mouse.x,mouse.y)).longitude.toFixed(7);
                         markerStart.coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                         radioBase.checkable=true
                         radioEnd.checkable=true;
@@ -550,7 +550,7 @@ Window
             Plane
             {
                 id: myPlane
-                pilotName: "Drone"
+               // pilotName: "Drone"
                 coordinate: myPlaneControl.position
 
                 MouseArea

@@ -165,16 +165,16 @@ void WayInfo::handleDate()// todo rename
             pointX1=pointStart.longitude()+((length/2)/metersDegree.second);
         break;
         case 2:
-            pointY1=pointStart.latitude()+abs((width/2)/(metersDegree.first));
-            pointX1=pointEnd.longitude()-((length/2)/metersDegree.second);
+            pointY1=pointStart.latitude()-abs((width/2)/(metersDegree.first));
+            pointX1=pointEnd.longitude()+((length/2)/metersDegree.second);
         break;
         case 3:
-            pointY1=pointEnd.latitude()+abs((width/2)/(metersDegree.first));
-            pointX1=pointEnd.longitude()-((length/2)/metersDegree.second);
+            pointY1=pointEnd.latitude()-abs((width/2)/(metersDegree.first));
+            pointX1=pointEnd.longitude()+((length/2)/metersDegree.second);
         break;
         case 4:
-            pointY1=pointEnd.latitude()+abs((width/2)/(metersDegree.first));
-            pointX1=pointStart.longitude()-((length/2)/metersDegree.second);
+            pointY1=pointEnd.latitude()-abs((width/2)/(metersDegree.first));
+            pointX1=pointStart.longitude()+((length/2)/metersDegree.second);
         break;
     }
 
